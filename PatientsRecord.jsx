@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
 const PatientsRecord = () => {
+  const [basicDetails, setBasicDetails] = useState({
+    name: "",
+    mobile: "",
+  });
+
   const [personalDetails, setPersonalDetails] = useState({
     birthday: "",
     age: "",
@@ -34,6 +39,14 @@ const PatientsRecord = () => {
 
   const [procedureRecords, setProcedureRecords] = useState([]);
   const [appointmentsHistory, setAppointmentsHistory] = useState([]);
+
+  const handleBasicDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setBasicDetails({
+      ...basicDetails,
+      [name]: value,
+    });
+  };
 
   const handlePersonalDetailsChange = (e) => {
     const { name, value } = e.target;
@@ -100,6 +113,11 @@ const PatientsRecord = () => {
     console.log("Submitting Personal Details:", personalDetails);
   };
 
+  const handleSubmitBasicDetails = (e) => {
+    e.preventDefault();
+    console.log("Submitting Basic Details:", basicDetails);
+  };
+
   const handleSubmitContactDetails = (e) => {
     e.preventDefault();
     console.log("Submitting Contact Details:", contactDetails);
@@ -138,6 +156,56 @@ const PatientsRecord = () => {
   return (
     <div className="flex  ">
       <div className="w-1/2  px-8  ">
+        <form onSubmit={handleSubmitBasicDetails}>
+          <div className="flex w-full gap-4 ">
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center text-xl font-bold mt-6">
+                PR
+              </div>
+            </div>
+
+            <div className=" w-4/5 gap-10 mt-2 mb-2">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="w-full  border rounded-md  border-current  mt-2 mb-2"
+                value={basicDetails.name}
+                onChange={handleBasicDetailsChange}
+                placeholder="Name"
+              />
+
+              <input
+                type="number"
+                id="mobile"
+                name="mobile"
+                className="w-full  border rounded-md  border-current  mt-2 mb-2"
+                value={basicDetails.mobile}
+                onChange={handleBasicDetailsChange}
+                placeholder="Mobile Number"
+              />
+
+              <button
+                type="submit"
+                className=" w-auto p-2 mt-8 mx-4 text-sm bg-green-700 text-white rounded hover:bg-green-600"
+              >
+                Save Changes
+              </button>
+
+              <button
+                type=""
+                className=" w-auto p-2 mt-8 mx-4 text-sm bg-slate-400 text-white rounded hover:bg-green-600"
+              >
+                Start Consultations
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-center items-center w-full mt-8 ">
+            <div className="border border-solid 	w-full "></div>
+          </div>
+        </form>
+
         <form onSubmit={handleSubmitPersonalDetails}>
           <div className="flex gap-10   pt-12 ">
             <h2 className=" text-base font-semibold ">Personal Details</h2>
@@ -274,9 +342,8 @@ const PatientsRecord = () => {
                 value={contactDetails.mobile}
                 onChange={handleContactDetailsChange}
               />
-              
             </div>
-           
+
             <div className="flex justify-between  gap-10  mt-2 mb-2">
               <label
                 htmlFor="email"
@@ -328,7 +395,12 @@ const PatientsRecord = () => {
           </div>
 
           <div>
-            <input type="file" multiple onChange={handleMedicalRecordUpload}  className="bg-slate-600"/>
+            <input
+              type="file"
+              multiple
+              onChange={handleMedicalRecordUpload}
+              className="bg-slate-600"
+            />
           </div>
 
           <div className="flex justify-center items-center w-full mt-8 ">
@@ -358,7 +430,6 @@ const PatientsRecord = () => {
 
       <div className="border"></div>
 
-
       <div className="w-1/2  px-8">
         <form onSubmit={handleSubmitDocumentDetails}>
           <div className="flex gap-10 pt-12 ">
@@ -380,8 +451,6 @@ const PatientsRecord = () => {
                 ID Type:
               </label>
 
-             
-
               <select
                 id="idType"
                 type="text"
@@ -389,15 +458,12 @@ const PatientsRecord = () => {
                 className="  border rounded-md border-current  "
                 value={documentDetails.idType}
                 onChange={handleDocumentDetailsChange}
-
-                
               >
                 <option value="">Select an ID type</option>
                 <option value="aadhar">Aadhar Card</option>
                 <option value="pan">Pan Card</option>
                 <option value="other">Other</option>
               </select>
-
             </div>
             <div className="flex justify-between  gap-10  mt-2 mb-2">
               <label
@@ -407,6 +473,8 @@ const PatientsRecord = () => {
                 ID Number:
               </label>
               <input
+                id="idNumber"
+                name="idNumber"
                 type="text"
                 className="  border rounded-md border-current "
                 value={documentDetails.idNumber}
@@ -452,6 +520,8 @@ const PatientsRecord = () => {
                 UPI ID:
               </label>
               <input
+                id="upiId"
+                name="upiId"
                 type="text"
                 className="  border rounded-md border-current "
                 value={bankDetails.upiId}
@@ -565,7 +635,6 @@ const PatientsRecord = () => {
           </div>
         </form>
       </div>
-
     </div>
   );
 };
